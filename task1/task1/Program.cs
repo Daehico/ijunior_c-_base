@@ -12,10 +12,10 @@ namespace task1
         {
             byte _Byte;
             short _12short;
-            int _int_;
-            float fantazia_na_nazvania_konchilas;
+            int _id;
+            float money;
             double _d_o_U_b_l_e_;
-            string kakoi_to_text;
+            string _someText;
             char _char;
             bool trueOrFalse;
             decimal _123456decimal;
@@ -24,3 +24,4 @@ namespace task1
         }
     }
 }
+s
