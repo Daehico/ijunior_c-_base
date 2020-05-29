@@ -10,18 +10,17 @@ namespace task1
     {
         static void Main(string[] args)
         {
-            byte _Byte;
-            short _12short;
+            byte _binaryNumber;
+            short _shortNumber;
             int _id;
-            float money;
-            double _d_o_U_b_l_e_;
+            float _money;
+            double _doubleNumber;
             string _someText;
             char _char;
-            bool trueOrFalse;
-            decimal _123456decimal;
-            object Object;
+            bool _canBuyOrNot;
+            decimal _decimalNumber;
+            object _gameObject;
            
         }
     }
 }
-s

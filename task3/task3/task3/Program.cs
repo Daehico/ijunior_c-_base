@@ -14,7 +14,7 @@ namespace task3
             int countsOfPhotosInRow = 3;
 
             int countsOfFullRow = countsOfPhotos / countsOfPhotosInRow;
-            float remainder = Convert.ToSingle(countsOfPhotos) % countsOfPhotosInRow;
+            float remainder = countsOfPhotos % countsOfPhotosInRow;
 
             Console.WriteLine("Количество заполненных рядов - " + countsOfFullRow);
             Console.WriteLine("Картинок сверх меры - " + remainder);

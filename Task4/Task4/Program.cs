@@ -14,15 +14,14 @@ namespace Task4
             Console.Write("Введите количество монет:");
             uint money = Convert.ToUInt32(Console.ReadLine());
             uint crystalcost = 5;
-            uint howManyCanIBuy = money / crystalcost;
-            Console.WriteLine("Вы можете купить " + howManyCanIBuy + " кристалов. Сколько кристалов вы хотите купить?");
+            uint howManyCanBuy = money / crystalcost;
+            Console.WriteLine("Вы можете купить " + howManyCanBuy + " кристалов. Сколько кристалов вы хотите купить?");
             uint userCrystalWantToBuy = Convert.ToUInt32(Console.ReadLine());
-            canBuy = userCrystalWantToBuy <= howManyCanIBuy;
+            canBuy = userCrystalWantToBuy <= howManyCanBuy;
             uint canByToInt = Convert.ToUInt32(canBuy);
-            uint userMoneyBack = money % userCrystalWantToBuy;
-            userCrystalWantToBuy *= canByToInt;
-            userMoneyBack = money;
-            Console.WriteLine("Вы купили:" + userCrystalWantToBuy + " кристалов. У вас осталось " + userMoneyBack + " золота");
+            money = money % userCrystalWantToBuy;
+            userCrystalWantToBuy *= canByToInt;           
+            Console.WriteLine("Вы купили:" + userCrystalWantToBuy + " кристалов. У вас осталось " + money + " золота");
             Console.ReadKey();
         }
     }
