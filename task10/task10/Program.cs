@@ -20,23 +20,46 @@ namespace task10
             _char = Console.ReadKey().KeyChar;
             lengthName = name.Length;
 
-          for(int i = 0; i < lengthName+2; i++)
+            for (int i = 0; i < lengthName + 2; i++)
             {
-                Console.SetCursorPosition(0 + i, 3);
-                Console.Write(_char);
-               
-                if(i == 0)
+                if (i == 0)
                 {
-                    Console.SetCursorPosition(0, 4);
+                    Console.WriteLine(_char);
+                }
+                else
+                {
                     Console.Write(_char);
+                }
+            }
+
+            Console.WriteLine(_char);
+
+            for (int i = 0; i < lengthName + 1; i++)
+            {
+                if (i == 1)
+                {
                     Console.Write(name);
+                }
+                else
+                {
+                    Console.Write(_char);
+                }
+            }
+
+
+            for (int i = 0; i < lengthName + 3; i++)
+            {
+                if (i == 0)
+                {
+                    Console.WriteLine(_char);
+                }
+
+                else
+                {
                     Console.Write(_char);
                 }
 
-                Console.SetCursorPosition(0 + i, 5);
-                Console.Write(_char);
             }
-
             Console.ReadKey();
         }
     }

@@ -16,7 +16,7 @@ namespace task12
             bool RahamonIsTrue = false;
             bool huganzakuraIsTrue = false;
 
-            string command = "";
+            string command = "".ToLower();
 
             Console.WriteLine("Добро пожаловать! Вы, теневой маг. Ваша задача убить босса, используя 4 разных заклинания. \r\n" +
                 "Для ознакомления со списком заклинаний наберите команду Список команд. Учтите, что за \r\nкаждое использованное заклинание вы будите получать урон. " +
@@ -26,14 +26,14 @@ namespace task12
             {
                 Console.Write("Введите команду:");
                 command = Console.ReadLine();
-                if (command.ToLower() == "рашамон")
+                if (command == "рашамон")
                 {
                     bossHealth -= 10;
                     userHealth -= 15;
                     Console.WriteLine("Вы нанесли 10 урона и получили 15 урона. Ваше здоровье {0}. Здоровье босса {1}", userHealth, bossHealth);
                     RahamonIsTrue = true;
                 }
-                else if (command.ToLower() == "хуганзакура")
+                else if (command == "хуганзакура")
                 {
                     if (RahamonIsTrue == false)
                     {
@@ -51,12 +51,12 @@ namespace task12
                     }
                 }
 
-                else if (command.ToLower() == "межпространственный разлом")
+                else if (command == "межпространственный разлом")
                 {
                     userHealth += 5;
                     Console.WriteLine("Вы спрятались в межпростравенном разломе и не получили урона. Также вы восстановили 5 единиц здоровья. Ваше здоровье {0}. Здоровье босса {1}", userHealth, bossHealth);
                 }
-                else if (command.ToLower() == "комбушечка")
+                else if (command == "комбушечка")
                 {
                     if (huganzakuraIsTrue == false)
                     {
@@ -73,7 +73,7 @@ namespace task12
                     }
                 }
 
-                else if (command.ToLower() == "список команд")
+                else if (command == "список команд")
                 {
                     Console.WriteLine("Заклинание Рашамон. Наносит 10 урона, вы получаете 15 урона. \r\n" +
                         "Заклинание Хуганзакура. Возможно только после использования заклинания Рашамон. Если вы все сделаете правильно, \r\nто босс получит 20 урона, а вы получите 20 урона. \r\n" +
