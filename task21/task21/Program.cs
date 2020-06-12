@@ -11,30 +11,30 @@ namespace task21
         static void Main(string[] args)
         {
             string[] array = new string[] { "здесь", "какие-то", "слова", "О_о" };
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 Console.WriteLine(array[i]);
             }
-            array = Shuffle(array);
+            Shuffle(array);
             Console.WriteLine("Новый массив");
-            for(int i = 0; i < array.Length; i++)
+            for (int i = 0; i < array.Length; i++)
             {
                 Console.WriteLine(array[i]);
             }
             Console.ReadKey();
         }
 
-        static string[] Shuffle(string[] array)
+        static void Shuffle(string[] array)
         {
-            Random rand = new Random();
-            string[] copy = new string[array.Length];
-            Array.Copy(array, copy,array.Length );
-            for(int i = 0; i < copy.Length; i++)
+            Random random = new Random();
+            for (int i = array.Length - 1; i >= 1; i--)
             {
-                array[rand.Next(0, copy.Length)] = copy[i];
+                int randomIndex = random.Next(i + 1);
+                var arrayText = array[randomIndex];
+                array[randomIndex] = array[i];
+                array[i] = arrayText;
             }
-            return array;
-        }
 
+        }
     }
 }

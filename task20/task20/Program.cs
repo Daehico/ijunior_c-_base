@@ -10,10 +10,10 @@ namespace task20
     {
         static void Main(string[] args)
         {
-            int heroDX, heroDY;
+            int heroDX = 0, heroDY = 0;
             int heroX = 3;
             int heroY = 1;
-            bool canMove;
+            bool canMove = false;
             char[,] map =
            {
             {'#','#','#','#','#','#','#','#','#','#','#','#' },
@@ -25,61 +25,22 @@ namespace task20
             {'#','#','#','#','#','#','#','#','#','#','#','#' }
         };
             RenderMap(map);
-           
+            map[heroX, heroY] = 'Y';
             while (true)
             {
                 if (Console.KeyAvailable)
                 {
                     Console.SetCursorPosition(heroY, heroX);
-                    map[heroX, heroY] = 'Y';
+                   
                     ConsoleKeyInfo key = Console.ReadKey(true);
-                    switch (key.Key)
+                    ShooseDirectionmove(key,ref heroDX,ref heroDY);
+                    canMove = CheckWalls(map,heroX,heroDX,heroY,heroDY);
+                    if( canMove == true)
                     {
-                        case ConsoleKey.UpArrow:
-                            heroDX = -1;
-                            heroDY = 0;
-                            canMove = Move(heroDX, heroDY, heroX, heroY, map);
-                            if(canMove == true)
-                            {
-                                heroX = MoveCursorX(heroDX, heroX);
-                                heroY = MoveCursorY(heroDY, heroY);
-                            }
-                            
-                            break;
-                        case ConsoleKey.DownArrow:
-                            heroDX = 1;
-                            heroDY = 0;
-                            canMove = Move(heroDX, heroDY, heroX, heroY, map);
-                            if (canMove == true)
-                            {
-                                heroX = MoveCursorX(heroDX, heroX);
-                                heroY = MoveCursorY(heroDY, heroY);
-                            }
-                            break;
-                        case ConsoleKey.LeftArrow:
-                            heroDX = 0;
-                            heroDY = -1;
-                            canMove = Move(heroDX, heroDY, heroX, heroY, map);
-                            if (canMove == true)
-                            {
-                                heroX = MoveCursorX(heroDX, heroX);
-                                heroY = MoveCursorY(heroDY, heroY);
-                            }
-                            break;
-                        case ConsoleKey.RightArrow:
-                            heroDX = 0;
-                            heroDY = 1;
-                            canMove = Move(heroDX, heroDY, heroX, heroY, map);
-                            if (canMove == true)
-                            {
-                                heroX = MoveCursorX(heroDX, heroX);
-                                heroY = MoveCursorY(heroDY, heroY);
-                            }
-                            break;
-                    }
+                        Move(map, ref heroX, ref heroY, heroDX, heroDY);
+                    }                   
                 }
             }
-
         }
 
         static void RenderMap(char[,] mapArray)
@@ -93,29 +54,41 @@ namespace task20
                 Console.WriteLine();
             }
         }
-
-        static bool Move(int DX, int DY,int heroX,int heroY, char[,] map)
-        {
-            if(map[heroX+DX, heroY+DY] != '#')
-            {
+        static void Move( char[,] map,ref int heroX,ref int heroY,  int DX,int DY)
+        {           
                 map[heroX, heroY] = ' ';
                 map[heroX + DX, heroY + DY] = 'Y';
+                heroX += DX;
+                heroY += DY;
                 Console.Clear();
-                RenderMap(map);
-                return true;
+                RenderMap(map);           
+        }
+
+        static void ShooseDirectionmove(ConsoleKeyInfo key, ref int DX, ref int DY)
+        {
+            switch (key.Key)
+            {
+                case ConsoleKey.UpArrow:
+                    DX = -1;
+                    DY = 0;
+                    break;
+                case ConsoleKey.DownArrow:
+                    DX = 1;
+                    DY = 0;
+                    break;
+                case ConsoleKey.LeftArrow:
+                    DX = 0;
+                    DY = -1;
+                    break;
+                case ConsoleKey.RightArrow:
+                    DX = 0;
+                    DY = 1;
+                    break;
             }
-            return false;
         }
-
-        static int MoveCursorX(int DX, int x)
+        static bool CheckWalls (char[,] map,int heroX,int DX,int heroY,int DY)
         {
-            return x += DX;
-
-        }
-
-        static int MoveCursorY(int DY, int y)
-        {
-            return y += DY;
+            return map[heroX + DX, heroY + DY] != '#';
         }
     }
 }

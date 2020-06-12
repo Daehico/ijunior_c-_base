@@ -11,8 +11,8 @@ namespace task17
 
         static void Main(string[] args)
         {
-            string[] fioArray = new string[1];
-            string[] positionArray = new string[1];
+            string[] fioArray = new string[0];
+            string[] positionArray = new string[0];
             Console.Write("Введите команду: ");
             string comand = Console.ReadLine().ToLower();
 
@@ -26,6 +26,7 @@ namespace task17
 
                     Console.Write("Введите должность: ");
                     string position = Console.ReadLine();
+
                     positionArray = AddDossier(positionArray, position);
                 }
                 else if (comand == "вывести все досье")
@@ -34,10 +35,8 @@ namespace task17
                 }
                 else if (comand == "удалить досье")
                 {
-                    Console.Write("Введите ID сотрудника досье которого вы хотите удалить. Для того что бы узнать ID сотруддника ввыведите список сотрудников через команду вывести все досье: ");
-                    int id = Convert.ToInt32(Console.ReadLine());
-                    fioArray = DeleteDossier(fioArray, id);
-                    positionArray = DeleteDossier(fioArray, id);
+                    fioArray = DeleteDossier(fioArray);
+                    positionArray = DeleteDossier(fioArray);
                 }
                 else if (comand == "поиск")
                 {
@@ -55,6 +54,10 @@ namespace task17
         static string[] AddDossier(string[] addArray, string name)
         {
 
+            if (addArray == null)
+            {
+                addArray = new string[1];
+            }
             string[] fioArrayCopy;
 
             Array.Copy(addArray, fioArrayCopy = new string[addArray.Length], addArray.Length);
@@ -73,6 +76,7 @@ namespace task17
 
         static void ShowAllDossier(string[] fioArray, string[] positionArray)
         {
+
             for (int i = 0; i < fioArray.Length; i++)
             {
                 if (fioArray[i] == null || positionArray[i] == null)
@@ -82,15 +86,26 @@ namespace task17
             }
         }
 
-        static string[] DeleteDossier(string[] fioArray, int id)
+        static string[] DeleteDossier(string[] fioArray)
         {
+            Console.Write("Введите ID сотрудника досье которого вы хотите удалить. Для того что бы узнать ID сотруддника ввыведите список сотрудников через команду вывести все досье: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            if (id < fioArray.Length)
+            {
+                Array.Clear(fioArray, id, fioArray.Length);
+                return fioArray;
+            }
+            else
+            {
+                Console.WriteLine("Такого ID - нет. Попробуйте еще раз");
 
-            Array.Clear(fioArray, id, id);
+            }
+
             return fioArray;
-
         }
         static void Search(string[] array, string[] position)
         {
+
             Console.Write("Введите ФИО сотрудника:");
             string text = Console.ReadLine();
             for (int i = 0; i < array.Length; i++)
@@ -99,9 +114,11 @@ namespace task17
                 {
                     Console.WriteLine("{0} - ID сотрудника которого вы искали; {1} - должность сотрудника которого вы искали", i, position[i]);
                 }
-
+                else
+                {
+                    Console.WriteLine("Такого досье нет");
+                }
             }
-
         }
     }
 }

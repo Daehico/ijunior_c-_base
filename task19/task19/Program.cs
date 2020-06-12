@@ -10,16 +10,17 @@ namespace task19
     {
         static void Main(string[] args)
         {
-            string returnInput;
-            returnInput = EnterNumber();
+            int returnInput;
+            returnInput = Reading();
             Console.WriteLine("Число - " + returnInput);
             Console.ReadKey();
 
         }
 
-        static string EnterNumber()
+        static int Reading()
         {
             string userInput = null;
+            int number = 0;
             bool intIsinput = false;
             while (intIsinput == false)
             {
@@ -30,13 +31,14 @@ namespace task19
                 if (successConvert == true)
                 {
                     intIsinput = true;
+                    number = result;
                 }
                 else
                 {
                     Console.WriteLine("Вы ввели ни число. Попробуйте еще раз.");
                 }
             }
-            return userInput;
+            return number;
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Task13
     {
         static void Main(string[] args)
         {
-            int[,] array = { {1,2,3,4 }, {9,10,11,20 }, {36,24,33,10 } };
+            int[,] array = { {1,2,3,4 }, {9,10,11,20 }, {36,24,33,10 }, {66,77,88,90 } };
             int sum = 0;
             int product = 1;
 
@@ -21,12 +21,12 @@ namespace Task13
                     Console.Write(array[i, j] + " | ");                      
                 }
                 Console.WriteLine();
-                product *= array[i, 0];
             }
            
             for(int i = 0; i < array.GetLength(1); i++)
             {
                 sum += array[1, i];
+                product *= array[i, 0];
             }
             Console.WriteLine("Сумма - " + sum);
             Console.WriteLine("Произведение - " + product);
