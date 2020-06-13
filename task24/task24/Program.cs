@@ -12,6 +12,7 @@ namespace task24
         static void Main(string[] args)
         {
             Hero hero = new Hero();
+            Base _base = new Base();
 
             string command;
             while (true)
@@ -29,23 +30,23 @@ namespace task24
                         Console.Write("Введите уровень героя: ");
                         int level = Convert.ToInt32(Console.ReadLine());
                         bool banOrNot = false;
-                        hero.AddHero(id, heroName, level, banOrNot);
+                        hero.AddHero(id, heroName, level, banOrNot,_base);
 
                         break;
                     case "1":
                         Console.Write("Введите Id героя которого хотите удалить: ");
                         id = Convert.ToInt32(Console.ReadLine());
-                        hero.DeleteHero(id);
+                        hero.DeleteHero(_base.Heroes, id);
                         break;
                     case "2":
                         Console.Write("Введите Id героя которого хотите забанить: ");
                         id = Convert.ToInt32(Console.ReadLine());
-                        hero.BanHero(id);
+                        hero.BanHero(_base.Heroes,id);
                         break;
                     case "3":
                         Console.Write("Введите Id героя которого хотите разбанить: ");
                         id = Convert.ToInt32(Console.ReadLine());
-                        hero.UnBanHero(id);
+                        hero.UnBanHero(_base.Heroes,id);
                         break;
                     default:
                         Console.WriteLine("Такой команды нет");
@@ -62,7 +63,7 @@ namespace task24
             private int _level;
             private bool _banOrNot;
 
-            public List<Hero> heroes = new List<Hero>();
+            
 
             public string Name { get => _name; private set => _name = value; }
             public int Id { get => _id; private set => _id = value; }
@@ -81,25 +82,32 @@ namespace task24
 
             }
 
-            public void AddHero(int id, string name, int level, bool ban)
+            public void AddHero(int id, string name, int level, bool ban,Base _base)
             {
-                heroes.Add(new Hero() { Id = id, Name = name, Level = level, BanOrNot = ban });
+                _base.Heroes.Add(new Hero() { Id = id, Name = name, Level = level, BanOrNot = ban });
 
             }
-            public void BanHero(int id)
+            public void BanHero(List<Hero> _base,int id)
             {
-                heroes[id]._banOrNot = true;
+                _base[id].BanOrNot = true;
             }
 
-            public void DeleteHero(int id)
+            public void DeleteHero(List<Hero> heroes, int id)
             {
                 heroes.RemoveAt(id);
             }
 
-            public void UnBanHero(int id)
+            public void UnBanHero(List<Hero> _base,int id)
             {
-                heroes[id]._banOrNot = false;
+                _base[id]._banOrNot = false;
             }
+        }
+
+        class Base
+        {
+            private List<Hero> heroes = new List<Hero>();
+
+            public List<Hero> Heroes { get => heroes; set => heroes = value; }
         }
     }
 }

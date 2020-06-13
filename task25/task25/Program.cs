@@ -10,58 +10,88 @@ namespace task25
     {
         static void Main(string[] args)
         {
-            Item[] items = { new Item("Sword"), new Item("Axe"), new Item("Shield") };
-            Hero hero = new Hero();
+
+            Hero hero = new Hero(100f);
             Traider traider = new Traider();
-            traider.itemsInShop.Add(items[0]);
-            traider.itemsInShop.Add(items[1]);
-            traider.itemsInShop.Add(items[2]);
+            traider.TheFormationOfFirstTraidList();
+
             while (true)
             {
                 Console.WriteLine("Добро пожаловать в магазин!");
                 Console.WriteLine("Для покупки доступно:");
                 int id = 0;
-                foreach (var item in traider.itemsInShop)
+                foreach (var item in traider.ItemsInShop)
                 {
                     Console.WriteLine($"id предмета - {id}. Название предмета - {item.ItemName}");
                     id++;
                 }
                 Console.Write("Введите ID предмета которого хотите купить: ");
                 id = Convert.ToInt32(Console.ReadLine());
-                traider.Traid(hero.itemsInHero, id, items);
+                traider.Traid(hero.ItemsInHero, id, hero);
                 Console.WriteLine("В вашем ивентаре:  ");
-                foreach (var item in hero.itemsInHero)
+                foreach (var item in hero.ItemsInHero)
                 {
                     Console.WriteLine($"Название предмета - {item.ItemName}");
                     id++;
-                }
-                Console.ReadKey();
-                
+                }                
             }
         }
     }
 }
 class Hero
 {
-    public List<Item> itemsInHero = new List<Item>();
+    private List<Item> _itemsInHero = new List<Item>();
+    private float _heroGold;
+    public Hero(float gold)
+    {
+        HeroGold = gold;
+    }
+    public List<Item> ItemsInHero { get => _itemsInHero; private set => _itemsInHero = value; }
+
+    public float HeroGold{ get => _heroGold; private set => _heroGold = value; }
+
+    public void ChangeGold(float gold)
+    {
+        _heroGold -= gold;
+    }
 }
 class Traider
 {
-    public List<Item> itemsInShop = new List<Item>();
-    public void Traid(List<Item> hero, int id, Item[] items)
+    private List<Item> _itemsInShop = new List<Item>();
+    private Item[] _items = { new Item("Sword", 20f), new Item("Axe", 30f), new Item("Shield", 40f) };
+    public List<Item> ItemsInShop { get => _itemsInShop; private set => _itemsInShop = value; }
+    public void TheFormationOfFirstTraidList()
     {
-        hero.Add(items[id]);
-        itemsInShop.RemoveAt(id);
+        ItemsInShop.Add(_items[0]);
+        ItemsInShop.Add(_items[1]);
+        ItemsInShop.Add(_items[2]);
+    }
+
+    public void Traid(List<Item> heroItem, int id, Hero hero)
+    {
+        if (_items[id].ItemCost <= hero.HeroGold)
+        {
+            heroItem.Add(_items[id]);
+            _itemsInShop.RemoveAt(id);
+            hero.ChangeGold(_items[id].ItemCost);
+        }
+        else
+        {
+            Console.WriteLine("Нужно больше золота!");
+        }
     }
 }
 class Item
 {
     private string _itemName;
+    private float _itemCost;
 
     public string ItemName { get => _itemName; private set => _itemName = value; }
+    public float ItemCost { get => _itemCost; private set => _itemCost = value; }
 
-    public Item(string name)
+    public Item(string name, float gold)
     {
         ItemName = name;
+        ItemCost = gold;
     }
 }
