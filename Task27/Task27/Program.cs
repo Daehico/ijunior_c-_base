@@ -8,204 +8,160 @@ namespace Task27
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
-            Random rand = new Random();
-            Console.WriteLine("Добро пожаловать на гладиаторские бои");
-            Console.WriteLine("Для выбора доступно 5 классов. 1 - воин, 2 - лучник, 3 - маг, 4 - рыцарь, 5 - варвор");
-            Console.Write("Выберите вашего бойца(введите цифру): ");
-            string command = Console.ReadLine();
-            Class _class = null;
-            _class = ChooseHro(command, _class);
-            Class _2class = null;
-            Console.Write("Выберите вашего противника(введите цифру): ");
-            command = Console.ReadLine();
-            _2class = ChooseHro(command, _2class);
-            int intcommand;
-            int random;
-            while (_class.Health > 0 && _2class.Health > 0)
-            {
-                Console.WriteLine("Выберите нанести обычный удар (1) или спец удар (2).");
-                Console.Write("Введите число: ");
-                intcommand = Convert.ToInt32(Console.ReadLine());
-                Atack(intcommand,_2class);
-                random = rand.Next(1, 3);
-                Atack(random, _class);
-                Console.WriteLine($"Здоровье  вашего героя - {_class.Health}. Здоровье врага - {_2class.Health}");
-            }
+            bool gameWork = true;
+            Random random = new Random();
+            Hero[] fighters = { new Warior(400f, 30f, 30f), new Archer(300f,40f, 15f), new Wizzard(250f, 50f, 10f), new Barbarian(350f, 35f, 15f), new Crusader(400f, 25f, 40f)};
+            Console.Write("Ввебирите бойца, введите число от 0 до 4: ");
+            int id = Convert.ToInt32(Console.ReadLine());
+            Hero firstFighter = fighters[id];
+            Console.Write("Ввебирите второго бойца, введите число от 0 до 4: ");
+            id = Convert.ToInt32(Console.ReadLine());
+            Hero secondFighters = fighters[id];
 
-            if(_class.Health <= 0)
+            while(gameWork != false)
             {
-                Console.WriteLine("Вы проиграли");
+                Console.Write("Введите 0 или 1. 0 - обычная атака, 1 - специальная атака: ");
+                int command = Convert.ToInt32(Console.ReadLine());
+                if(command == 0)
+                {
+                    firstFighter.Attack(secondFighters);
+                }
+                else if(command == 1)
+                {
+                    firstFighter.DoSpecialSkill();
+                }
+                else
+                {
+                    Console.WriteLine("Такой комманды нет.");
+                }
+                command = random.Next(0, 2);
+                if (command == 0)
+                {
+                    secondFighters.Attack( firstFighter);
+                }
+                else if (command == 1)
+                {
+                    secondFighters.DoSpecialSkill();
+                }
+                else
+                {
+                    Console.WriteLine("Такой комманды нет.");
+                }
+                firstFighter.ShowHealth(firstFighter, secondFighters);
+                gameWork = firstFighter.CheckFightersHealth();
             }
-            else
-            {
-                Console.WriteLine("Вы победили");
-            }
-            Console.ReadKey();
-        }
-        static Class ChooseHro(string command,Class _class)
-        {
-            switch (command)
-            {
-                case "1":
-                    _class = new Warior(500f, 20f, 10f);
-                    break;
-                case "2":
-                    _class = new Archer(400f,40f,15f);
-                    break;
-                case "3":
-                    _class = new Wizard(350f, 50f,20f);
-                    break;
-                case "4":
-                    _class = new Crusader(500f,15f,5f);
-                    break;
-                case "5":
-                    _class = new Barbarian(450f,35f, 10f);
-                    break;
-                default:
-                    Console.WriteLine("Такого класса нет");
-                    break;
-            }
-            return _class;
-        }
-        static void Atack(int command, Class _class )
-        {
-            switch (command)
-            {
-                case 1:
-                    _class.ApplyDamage(_class.Damage);
-                    break;
-                case 2:
-                    _class.SpeciallSkiil(_class.SpecialSkillDamage);
-                    break;
-                default:
-                    Console.WriteLine("Такой способности нет.");
-                    break;
-            }
+           
         }
       
     }
 
-    abstract class Class
+    abstract class Hero
     {
-        public float Health { get; private set; }
-        public float Damage { get; private set; }
-        public float SpecialSkillDamage { get; private set; }
+        protected float Health { get; set; }
+        protected float Damage { get; set; }
+        protected float Armor { get; set; }
 
-        public Class(float health, float damage, float skill)
+        public Hero(float health, float damage,  float armor)
         {
             Health = health;
             Damage = damage;
-            SpecialSkillDamage = skill;
+            Armor = armor;
         }
 
-        public void  ApplyDamage(float damage)
+        public void Attack(Hero seconFighter)
         {
-            Health -= ProcessDamage(damage);
-        }
-        public void SpeciallSkiil(float damage)
-        {
-            Health -= ProcessDamage(damage);
+            seconFighter.Health -= Damage - Armor;
         }
 
-        protected abstract float ProcessDamage(float damage);
-        protected abstract float PricessSkillDamage(float damage);
+        public bool CheckFightersHealth()
+        {
+            return Health > 0;
+        }
+
+        public void ShowHealth(Hero firstFighter, Hero secondFighter)
+        {
+            Console.WriteLine($"Здоровье первого бойца - {firstFighter.Health}.");
+            Console.WriteLine($"Здоровье второго бойца - {secondFighter.Health}.");
+        }
+
+        public abstract void DoSpecialSkill();
     }
 
-    class Warior : Class
+    class Warior : Hero
     {
-        public Warior(float health, float damage, float skill): base(health, damage, skill)
+        public Warior(float health, float damage, float armor)
+            : base(health, damage, armor)
         {
 
         }
-
-        protected override float PricessSkillDamage(float damage)
+        public override void DoSpecialSkill()
         {
-           return damage * 1.5f;
-        }
-
-        protected override float ProcessDamage(float damage)
-        {
-            return damage;
-        }
-    }
-
-    class Archer : Class
-    {
-        public Archer(float health, float damage, float skill) : base(health, damage, skill)
-        {
-
-        }
-
-        protected override float PricessSkillDamage(float damage)
-        {
-            return damage * 2f;
-        }
-
-        protected override float ProcessDamage(float damage)
-        {
-            return damage * 1.5f;
+            Armor += 2f;
+            Damage -= 2f;
         }
     }
 
-    class Wizard : Class
+    class Archer : Hero
     {
-        public Wizard(float health, float damage, float skill) : base(health, damage, skill)
+        public Archer(float health, float damage,  float armor)
+            : base(health, damage, armor)
         {
-
+           
         }
 
-        protected override float PricessSkillDamage(float damage)
+        public override void DoSpecialSkill()
         {
-            return damage * 4f;
-        }
-
-        protected override float ProcessDamage(float damage)
-        {
-            return damage * 2f;
+            Damage += 10f;
+            Armor -= 10f;
         }
     }
 
-    class Crusader : Class
+    class Wizzard : Hero
     {
-        public Crusader(float health, float damage, float skill) : base(health, damage, skill)
+        public Wizzard(float health, float damage, float armor)
+            : base(health, damage, armor)
         {
 
         }
 
-        protected override float PricessSkillDamage(float damage)
+        public override void DoSpecialSkill()
         {
-            return damage * 2f;
-        }
-
-        protected override float ProcessDamage(float damage)
-        {
-            return damage / 2f;
+            Armor /= 2f;
+            Damage *= 2f;
         }
     }
 
-    class Barbarian : Class
+    class Barbarian : Hero
     {
-
-        public Barbarian(float health, float damage, float skill) : base(health, damage, skill)
+        public Barbarian(float health, float damage, float armor)
+            : base(health, damage, armor)
         {
 
         }
-        public void DoSpecialSkill(Class _class)
+
+        public override void DoSpecialSkill()
         {
-            throw new NotImplementedException();
+            Armor /= 2f;
+            Health -= 20f;
+            Damage -= 30f;
+        }
+    }
+
+    class Crusader : Hero
+    {
+        public Crusader(float health, float damage,  float armor)
+            : base(health, damage, armor)
+        {
+
         }
 
-        protected override float PricessSkillDamage(float damage)
+        public override void DoSpecialSkill()
         {
-            return damage * 3f;
-        }
-
-        protected override float ProcessDamage(float damage)
-        {
-            return damage / 1.5f;
+            Armor += 20f;
+            Damage -= 10f;
         }
     }
 }

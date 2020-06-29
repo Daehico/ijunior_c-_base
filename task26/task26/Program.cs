@@ -20,13 +20,13 @@ namespace task26
                 string secondDirection = Console.ReadLine();
                 DirectionOfTrain directionOfTrain = new DirectionOfTrain(firstDirection, secondDirection);
                 Console.WriteLine("Сейчас продаются билеты на сформированное направление.");
-                Tickets tickets = new Tickets();
-                Console.WriteLine($"Было продано - { tickets.CountOfTickets} билетов.");
+                int tickets = rand.Next(50, 201);
+                Console.WriteLine($"Было продано - { tickets} билетов.");
                 Console.WriteLine("Формируется поезд.");
                 Train train = new Train();
                 int counts = 0;
                 int carriege;
-                while(tickets.CountOfTickets > counts)
+                while(tickets > counts)
                 {
                     carriege = rand.Next(25, 51);
                     train.AddCarriageToTrain(carriege);
@@ -64,7 +64,6 @@ namespace task26
         public void AddCarriageToTrain(int count)
         {
             railwayСarriage = new RailwayСarriage(count);
-
             RailwayСarriages.Add(railwayСarriage);
         }
     }
@@ -75,23 +74,9 @@ namespace task26
 
         public int CountOfPassengersOfRailwayСarriage { get => countOfPassengersOfRailwayСarriage;private set => countOfPassengersOfRailwayСarriage = value; }
 
-        public RailwayСarriage(int count)
+        public RailwayСarriage(int countOfPassengers)
         {
-            CountOfPassengersOfRailwayСarriage = count;
+            CountOfPassengersOfRailwayСarriage = countOfPassengers;
         }
-    }
-    class Tickets
-    {
-        private int countOfTickets;
-        public int CountOfTickets { get => countOfTickets; private set => countOfTickets = value; }
-
-        public Tickets()
-        {
-            Random rand = new Random();
-            countOfTickets = rand.Next(50, 200);
-
-        }
-
-       
     }
 }
