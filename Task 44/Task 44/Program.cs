@@ -29,6 +29,11 @@ namespace Task_44
 
             var soldiersStartB = soldiers1.Where(i => i.Name.ToLower().StartsWith("б")).ToList();
 
+            foreach (var soldier in soldiersStartB)
+            {
+                soldiers1.Remove(soldier);
+            }
+
             var result = soldiers2.Union(soldiersStartB);
 
             foreach (var soldier in result)

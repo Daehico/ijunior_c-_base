@@ -39,8 +39,8 @@ namespace task42
 
         public void SearchOverdueStew(List<Stew> stews, int curentYear)
         {
-            var _result = stews.Where(i => i.ExpirationDate <= curentYear);
-            foreach (var stew in _result)
+            var overdueStew = stews.Where(i => i.ExpirationDate <= curentYear);
+            foreach (var stew in overdueStew)
             {
                 Console.WriteLine(stew.Name);
             }
